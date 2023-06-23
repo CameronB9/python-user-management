@@ -33,13 +33,16 @@ def get_valid_user_id(action: str):
     user_id = None
 
     while True:
+        user_input = input(f'Enter the id of the user to {action}, or "quit" to go back: ')
         try:
-            user_id = int(input(f'Enter the id of the user to {action}: '))
+            user_id = int(user_input)
         except ValueError:
             pass
 
         if user_id in [user['id'] for user in users]:
             break
+        elif user_input == "quit":
+            return None
     return user_id
 
 
@@ -75,8 +78,9 @@ def add_user():
 
 def update_user():
     user_id = get_valid_user_id('update')
-    user_dict = input_user_name()
-    update_user_api(user_dict, user_id)
+    if user_id:
+        user_dict = input_user_name()
+        update_user_api(user_dict, user_id)
 
 
 def get_action():
